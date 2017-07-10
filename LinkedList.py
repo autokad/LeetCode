@@ -9,6 +9,60 @@ class LinkedListNode:
     def __str__(self):
         return str(self.value)
 
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+    def __str__(self):
+        l = []
+        dummy = self
+        while dummy.next:
+            l.append(str(dummy.val))
+            dummy = dummy.next
+        l.append(str(dummy.val))
+        return ' -> '.join(l)
+
+class SinglyLinkedList:
+
+    def __init__(self, values=None):
+        self.head = None
+        if values is not None:
+            self.add_multiple(values)
+
+    def __iter__(self):
+        current = self.head
+        while current:
+            yield current
+            current = current.next
+
+    def __str__(self):
+        values = [str(x) for x in self]
+        return ' -> '.join(values)
+
+    def __len__(self):
+        result = 0
+        node = self.head
+        while node:
+            result += 1
+            node = node.next
+        return result
+
+    def add(self, value):
+        pass
+
+    def add_to_beginning(self, value):
+        pass
+
+    def add_multiple(self, values):
+        for v in values:
+            self.add(v)
+
+    def generate(self, n, min_value, max_value):
+        self.head = None
+        for i in range(n):
+            self.add(randint(min_value, max_value))
+        return self
 
 class LinkedList:
 

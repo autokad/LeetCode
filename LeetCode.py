@@ -1,4 +1,6 @@
-import LinkedList
+from LinkedList import LinkedList
+from LinkedList import LinkedListNode
+from LinkedList import ListNode
 
 class NumArray(object):
     #307. Range Sum Query - Mutable
@@ -484,15 +486,124 @@ class Solution(object):
                 j = min(j + 1, len(s2)-1)
         return s
 
+    def quickSort(self,nums):
+        if len(nums)<=1:
+            return nums
+        pivot = nums[0]
+        left = []
+        equal = [pivot]
+        right = []
+        for v in nums[1:]:
+            if v < pivot:
+                left.append(v)
+            elif v == pivot:
+                equal.append(v)
+            else:
+                right.append(v)
+        return self.quickSort(left) + equal + self.quickSort(right)
+
+    def myPow(self, x, n):
+        if n==0:
+            return 1
+        if n == -1:
+            return 1/x
+        return self.myPow(x*x,n/2) * [1,x][n % 2]
+
+    def myPow2(self, x, n):
+        if n==0:
+            return 1
+        if n == -1:
+            return 1/x
+        if n % 2 == 0:
+            return self.myPow(x*x,n/2)
+        else:
+            return self.myPow(x*x,n/2) * x
+
+    def radixSort(self,nums, n = 0):
+        #print nums, n
+        if len(nums)<=1 or n>=len(nums)-1:
+            return nums
+        if len(nums[0])==1:
+            return quickSort(nums)
+        buckets = [[],[],[],[],[],[],[],[],[],[]]
+        for v in nums:
+            buckets[int(v[n])].append(v)
+        #print buckets, "*"
+        for i,l in enumerate(buckets):
+            if len(l)>1:
+                l[i] = self.radixSort(l, n+1)
+        print l
+            
+                
+        
+
     def findMinMoves(self, machines):
         pass
-            
+
+    def reverseBetween(self, head, m, n):
+        print head
+        if head is None:
+            return []
+        dummy = ListNode(0)
+        dummy.next = head
+        pre = dummy
+        for i in xrange(m-1):
+            pre = pre.next
+        start = pre.next
+        then = start.next
+        print pre, start, then
+        for i in xrange(n-m):
+            print i, ':', dummy
+            start.next = then.next
+            #print pre,'|', start,'|', then
+            then.next = pre.next
+            #print pre,'|', start,'|', then
+            pre.next = then
+            #print pre,'|', start,'|', then
+            then = start.next
+            #print pre,'|', start,'|', then
+        return dummy.next
+
+    def reverseLN(self, head):
+        dummy = None
+        while head:
+            head.next, head, dummy = dummy, head.next, head
+        return dummy
+
+
+    def reverseLN2(self, head):
+        dummy = None
+        while head:
+            cur = head
+            nxt = head.next
+            head.next = dummy
+            head = nxt
+            dummy = cur
+        return dummy
+        
         
 
 
 s= Solution()
+head = ListNode(1);
+head.next = ListNode(2);
+head.next.next = ListNode(3);
+head.next.next.next = ListNode(4);
+head.next.next.next.next = ListNode(5);
+head.next.next.next.next.next = ListNode(6);
 
-print s.findMinMoves([1,0,5])
+
+#print s.radixSort(['002', '024', '045'])
+#ll = LinkedList([1,1,2,3,4,5,5])
+#ll = LinkedList([1,2,3,4,5,6])
+print s.reverseLN2(head)
+print s.reverseLN2(ListNode(6))
+#print s.reverseBetween(head, 2,5)
+
+#print s.radixSort(['170', '045', '075', '090', '002', '024', '802', '066'])
+#print s.quickSort([1,8,3,6,5,4,7,2])
+
+#print s.findMinMoves([1,0,5])
 
 #print (s.shortedNdistinct([1,2,3,5,10],[2,10]))
 
